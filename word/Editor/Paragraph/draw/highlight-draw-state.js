@@ -639,7 +639,21 @@
 		let comment = commentManager.GetById(commentId);
 		if (!comment)
 			return DEFAULT_COMMENT_COLOR;
-		
+
+		// top.legal: tint the commented-text background by team scope, stored in the
+		// comment's userData as JSON ({"eoScope":"internal|external|shared"}). Pale tints
+		// keep the text readable; a touch deeper when the comment is current/active.
+		// bracket/quoted access so Closure does NOT rename the literal "eoScope" key.
+		try {
+			let ud = (comment.GetData && comment.GetData()) ? comment.GetData().GetUserData() : null;
+			if (ud) {
+				let s = JSON.parse(ud)["eoScope"];
+				if (s === 'internal') return isCurrent ? new AscCommon.CColor(240, 170, 167, 255) : new AscCommon.CColor(247, 210, 208, 255);
+				if (s === 'external') return isCurrent ? new AscCommon.CColor(170, 200, 240, 255) : new AscCommon.CColor(208, 225, 247, 255);
+				if (s === 'shared')   return isCurrent ? new AscCommon.CColor(175, 225, 198, 255) : new AscCommon.CColor(210, 238, 222, 255);
+			}
+		} catch (e) {}
+
 		let userId   = comment.GetUserId();
 		let userName = comment.GetUserName();
 		return AscCommon.getUserColorById(userId, userName, isCurrent ? 0 : -1, false);
