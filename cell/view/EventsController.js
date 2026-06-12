@@ -1213,9 +1213,9 @@
 						if (!bIsSelectColumns && !bIsSelect) {
 						
 						    const oApi = oThis.view.model && oThis.view.model.Api;
-    +					    if (oApi && !oApi.canEdit()) break;
-    +					    const wsModel = oThis.view.getWorksheet().model;
-    +					    if (wsModel && wsModel.getSheetProtection(Asc.c_oAscSheetProtectType.objects)) break;
+					    if (oApi && !oApi.canEdit()) break;
+					    const wsModel = oThis.view.getWorksheet().model;
+					    if (wsModel && wsModel.getSheetProtection(Asc.c_oAscSheetProtectType.objects)) break;
 
 							const oDrawCtrl = oThis.view.getWorksheet().objectRender.controller;
 							if (oDrawCtrl && oDrawCtrl.selectedObjects && oDrawCtrl.selectedObjects.length >= 1) {
