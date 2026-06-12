@@ -3218,8 +3218,8 @@ function getFlatPenColor() {
 
 	AscFormat.InitClass(CFormControlPr, AscFormat.CBaseFormatObject, AscDFH.historyitem_type_FormControlPr);
 	// TODO: temporary workaround — CFormControlPr inherits Write_ToBinary2 from CBaseFormatObject
-+	// but the inherited version writes the wrong type tag in some serialisation paths.
-+	// Remove once the correct type is handled upstream.
+	// but the inherited version writes the wrong type tag in some serialisation paths.
+	// Remove once the correct type is handled upstream.
 	CFormControlPr.prototype.Write_ToBinary2 = function (oWriter) {
 		AscFormat.CBaseFormatObject.prototype.Write_ToBinary2.call(this, oWriter);
 	};
