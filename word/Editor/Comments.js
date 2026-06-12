@@ -1405,9 +1405,11 @@ ParaComment.prototype.getMarkColor = function()
 		let ud = (comment.GetData && comment.GetData()) ? comment.GetData().GetUserData() : null;
 		if (ud) {
 			let o = JSON.parse(ud);
-			if (o && o.eoScope === 'internal') return new AscCommon.CColor(217, 83, 79, 255);
-			if (o && o.eoScope === 'external') return new AscCommon.CColor(74, 144, 217, 255);
-			if (o && o.eoScope === 'shared')   return new AscCommon.CColor(61, 189, 125, 255);
+			// bracket/quoted access so the Closure compiler does NOT rename the
+			// property — it must match the literal "eoScope" key web-apps writes.
+			if (o && o["eoScope"] === 'internal') return new AscCommon.CColor(217, 83, 79, 255);
+			if (o && o["eoScope"] === 'external') return new AscCommon.CColor(74, 144, 217, 255);
+			if (o && o["eoScope"] === 'shared')   return new AscCommon.CColor(61, 189, 125, 255);
 		}
 	} catch (e) {}
 
