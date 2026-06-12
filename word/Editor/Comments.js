@@ -1397,7 +1397,22 @@ ParaComment.prototype.getMarkColor = function()
 	let comment = commentManager.GetById(this.CommentId);
 	if (!comment)
 		return defaultColor;
-	
+
+	// top.legal: color the commented text by team scope, stored in the comment's
+	// userData as JSON ({"eoScope":"internal|external|shared"}). Falls back to the
+	// author color when no scope is set.
+	try {
+		let ud = (comment.GetData && comment.GetData()) ? comment.GetData().GetUserData() : null;
+		if (ud) {
+			let o = JSON.parse(ud);
+			// bracket/quoted access so the Closure compiler does NOT rename the
+			// property — it must match the literal "eoScope" key web-apps writes.
+			if (o && o["eoScope"] === 'internal') return new AscCommon.CColor(217, 83, 79, 255);
+			if (o && o["eoScope"] === 'external') return new AscCommon.CColor(74, 144, 217, 255);
+			if (o && o["eoScope"] === 'shared')   return new AscCommon.CColor(61, 189, 125, 255);
+		}
+	} catch (e) {}
+
 	let userId   = comment.GetUserId();
 	let userName = comment.GetUserName();
 	return AscCommon.getUserColorById(userId, userName, 1, false);
