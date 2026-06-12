@@ -4145,8 +4145,8 @@
 			if (oRef3D) {
 				sheetModel = model.getWorksheetByName(oRef3D.sheet);
 				if (!sheetModel) {
-+					return Asc.c_oAscError.ID.DataRangeError;
-+				}
+					return Asc.c_oAscError.ID.DataRangeError;
+				}
 				if (sheetModel) {
 					range = AscCommonExcel.g_oRangeCache.getAscRange(oRef3D.range);
 				}
