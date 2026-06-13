@@ -9485,10 +9485,7 @@ background-repeat: no-repeat;\
 		else if(this.isOpenOOXInBrowser && this["asc_isSupportFeature"]("ooxml"))
 		{
 			var title = this.documentTitle;
-			// top.legal: redact internal-scoped comments out of any user download.
-			if (this.WordControl.m_oLogicDocument) this.WordControl.m_oLogicDocument.__eoExportStripScopes = ['internal'];
 			this.saveLogicDocumentToZip(fileType, options, function(data) {
-				if (t.WordControl.m_oLogicDocument) t.WordControl.m_oLogicDocument.__eoExportStripScopes = null;
 				if (data) {
 					if (c_oAscFileType.DOCX === fileType && canDownloadFromBytes) {
 						AscCommon.DownloadFileFromBytes(data, title, AscCommon.openXml.GetMimeType("docx"));
@@ -9526,10 +9523,7 @@ background-repeat: no-repeat;\
 				oBinaryFileWriter = new AscCommonWord.BinaryFileWriter(oLogicDocument, false, true, options.compatible);
 			else
 				oBinaryFileWriter = new AscCommonWord.BinaryFileWriter(oLogicDocument, undefined, undefined, options.compatible);
-			// top.legal: redact internal-scoped comments out of any user download.
-			if (oLogicDocument) oLogicDocument.__eoExportStripScopes = ['internal'];
 			dataContainer.data = oBinaryFileWriter.Write(oAdditionalData["nobase64"]);
-			if (oLogicDocument) oLogicDocument.__eoExportStripScopes = null;
 		}
 		if (null != options.oMailMergeSendData)
 		{
