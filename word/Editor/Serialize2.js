@@ -7114,32 +7114,14 @@ function BinaryCommentsTableWriter(memory, doc, oMapCommentId, commentUniqueGuid
     {
         var oThis = this;
 		var nIndex = 0;
-		// top.legal export redaction: when serializing for a user download
-		// (logicDocument.__eoExportStripScopes is set by api._downloadAs), drop any
-		// comment whose userData scope is in the strip set. Because the comment's id
-		// then never enters oMapCommentId, the body writer also skips its in-text
-		// commentRangeStart/End/Reference marks — so the output stays valid.
-		var eoStripScopes = this.Document && this.Document.__eoExportStripScopes;
         for(var i in this.Document.Comments.m_arrCommentsById)
 		{
 			var oComment = this.Document.Comments.m_arrCommentsById[i];
-			if (eoStripScopes && oThis.eoIsStrippedScope(oComment, eoStripScopes))
-				continue;
 			if (this.isDocument === oComment.IsGlobalComment()) {
 				this.bs.WriteItem(c_oSer_CommentsType.Comment, function () { oThis.WriteComment(oComment.Data, oComment.Id, nIndex++); });
 			}
 
 		}
-    };
-    this.eoIsStrippedScope = function(oComment, stripScopes)
-    {
-		try {
-			var ud = oComment && oComment.Data ? oComment.Data.m_sUserData : null;
-			if (!ud) return false;
-			// bracket access so Closure keeps the literal "eoScope" key
-			var scope = JSON.parse(ud)["eoScope"];
-			return scope && stripScopes.indexOf(scope) !== -1;
-		} catch (e) { return false; }
     };
     this.WriteComment = function(comment, sCommentId, nFileId)
     {
